@@ -50,12 +50,13 @@ public class UserInterface {
 		menu.insert("x", "Shortest author name", this::getShortestNameOfAuthors);	// Exercise 3
 		menu.insert("y", "Get article count", this::getArticleCount);	// Exercise 3
 		menu.insert("z", "Sort by longest title", this::getSortArticlesByLongestTitle); // Exercise 3
-		menu.insert("g", "Download URLs", () -> {
-
-			//SequentialDownloader downloader = new SequentialDownloader();
+		menu.insert("g", "Download URLs serquential", () -> {
+			SequentialDownloader downloader = new SequentialDownloader();
+			downloader.process(ctrl.getURLs());
+		});
+		menu.insert("e", "Download URLs parallel", () -> {
 			ParallelDownloader downloader = new ParallelDownloader();
 			downloader.process(ctrl.getURLs());
-			return;
 		});
 		menu.insert("q", "Quit", null);
 		Runnable choice;

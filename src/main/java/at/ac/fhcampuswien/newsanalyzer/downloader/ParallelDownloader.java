@@ -12,11 +12,12 @@ public class ParallelDownloader extends Downloader {
 
     @Override
     public int process(List<String> urls) {
+        long startTime = System.nanoTime();
         int count = 0;
         for (String url : urls) {
             try {
                 Future<?> taskStatus = executorService.submit(() -> {
-                    System.out.printf("Starting Thread %s", Thread.currentThread().getName());
+                    //System.out.printf("Starting Thread %s", Thread.currentThread().getName());
                     saveUrl2File(url);
                 });
                 count ++;
@@ -25,6 +26,8 @@ public class ParallelDownloader extends Downloader {
             }
         }
         executorService.shutdown();
+        long stopTime = System.nanoTime();
+        System.out.println("Time needed: " + (stopTime - startTime)*0.000000001 + " secs");
         return count;
     }
 }
