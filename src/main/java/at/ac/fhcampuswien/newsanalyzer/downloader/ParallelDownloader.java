@@ -1,33 +1,38 @@
 package at.ac.fhcampuswien.newsanalyzer.downloader;
 
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
 public class ParallelDownloader extends Downloader {
 
     ExecutorService executorService = Executors.newFixedThreadPool(5);
 
     @Override
-    public int process(List<String> urls) {
-        long startTime = System.nanoTime();
+    public int process(List<String> urls) throws InterruptedException {
         int count = 0;
         for (String url : urls) {
             try {
                 Future<?> taskStatus = executorService.submit(() -> {
-                    //System.out.printf("Starting Thread %s", Thread.currentThread().getName());
+                    System.out.printf("Starting Thread %s", Thread.currentThread().getName());
                     saveUrl2File(url);
                 });
                 count ++;
             } catch (Exception e) {
-                System.out.println("Error");
+                System.out.println("Problem with thread " + Thread.currentThread().getName());
+                e.printStackTrace();
             }
         }
         executorService.shutdown();
-        long stopTime = System.nanoTime();
-        System.out.println("Time needed: " + (stopTime - startTime)*0.000000001 + " secs");
+
+        try {
+            if (!executorService.awaitTermination(60, TimeUnit.SECONDS)) {
+                executorService.shutdownNow();
+            }
+        } catch (InterruptedException ex) {
+            executorService.shutdownNow();
+            Thread.currentThread().interrupt();
+        }
+
         return count;
     }
 }

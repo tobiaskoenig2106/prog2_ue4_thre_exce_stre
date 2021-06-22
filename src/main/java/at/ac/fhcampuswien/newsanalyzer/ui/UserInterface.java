@@ -50,14 +50,27 @@ public class UserInterface {
 		menu.insert("x", "Shortest author name", this::getShortestNameOfAuthors);	// Exercise 3
 		menu.insert("y", "Get article count", this::getArticleCount);	// Exercise 3
 		menu.insert("z", "Sort by longest title", this::getSortArticlesByLongestTitle); // Exercise 3
+
 		menu.insert("g", "Download URLs serquential", () -> {
+			long startTime = System.nanoTime();
 			SequentialDownloader downloader = new SequentialDownloader();
 			downloader.process(ctrl.getURLs());
+			long stopTime = System.nanoTime();
+			System.out.println("Time needed: " + (stopTime - startTime)*0.000000001 + " secs");
 		});
+
 		menu.insert("e", "Download URLs parallel", () -> {
+			long startTime = System.nanoTime();
 			ParallelDownloader downloader = new ParallelDownloader();
-			downloader.process(ctrl.getURLs());
+			try {
+				downloader.process(ctrl.getURLs());
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			long stopTime = System.nanoTime();
+			System.out.println("Time needed: " + (stopTime - startTime)*0.000000001 + " secs");
 		});
+
 		menu.insert("q", "Quit", null);
 		Runnable choice;
 		while ((choice = menu.exec()) != null) {

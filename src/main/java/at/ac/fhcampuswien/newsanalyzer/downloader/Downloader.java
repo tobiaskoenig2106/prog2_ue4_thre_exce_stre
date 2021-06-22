@@ -10,7 +10,7 @@ public abstract class Downloader {
     public static final String HTML_EXTENTION = ".html";
     public static final String DIRECTORY_DOWNLOAD = "./download/";
 
-    public abstract int process(List<String> urls);
+    public abstract int process(List<String> urls) throws InterruptedException;
 
     public String saveUrl2File(String urlString) {
         InputStream is = null;
@@ -24,6 +24,7 @@ public abstract class Downloader {
             if (fileName.isEmpty()) {
                 fileName = url4download.getHost() + HTML_EXTENTION;
             }
+
             os = new FileOutputStream(DIRECTORY_DOWNLOAD + fileName);
 
             byte[] b = new byte[2048];
@@ -41,6 +42,7 @@ public abstract class Downloader {
                 e.printStackTrace();
             }
         }
+        System.out.println(fileName);
         return fileName;
     }
 }
