@@ -7,6 +7,7 @@ import at.ac.fhcampuswien.newsapi.beans.Source;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 public class Controller {
@@ -83,5 +84,11 @@ public class Controller {
 				.max(Comparator.comparingInt(o -> o.getValue().size()))
 				.map(stringListEntry -> stringListEntry.getKey() + " " + stringListEntry.getValue().size())
 				.orElseThrow();
+	}
+
+	public List<String> getURLs() {
+		return articles.stream()
+				.map(Article::getUrl)
+				.collect(Collectors.toList());
 	}
 }

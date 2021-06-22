@@ -1,9 +1,6 @@
 package at.ac.fhcampuswien.newsanalyzer.downloader;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.URL;
 import java.util.List;
 import java.util.Objects;
@@ -27,6 +24,8 @@ public abstract class Downloader {
             if (fileName.isEmpty()) {
                 fileName = url4download.getHost() + HTML_EXTENTION;
             }
+
+            System.out.println(fileName);
             os = new FileOutputStream(DIRECTORY_DOWNLOAD + fileName);
 
             byte[] b = new byte[2048];
