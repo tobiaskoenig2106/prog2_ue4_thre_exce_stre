@@ -3,6 +3,7 @@ package at.ac.fhcampuswien.newsanalyzer.ui;
 
 import at.ac.fhcampuswien.newsanalyzer.ctrl.Controller;
 import at.ac.fhcampuswien.newsanalyzer.ctrl.NewsAPIException;
+import at.ac.fhcampuswien.newsanalyzer.downloader.ParallelDownloader;
 import at.ac.fhcampuswien.newsanalyzer.downloader.SequentialDownloader;
 import at.ac.fhcampuswien.newsapi.NewsApi;
 import at.ac.fhcampuswien.newsapi.NewsApiBuilder;
@@ -50,8 +51,11 @@ public class UserInterface {
 		menu.insert("y", "Get article count", this::getArticleCount);	// Exercise 3
 		menu.insert("z", "Sort by longest title", this::getSortArticlesByLongestTitle); // Exercise 3
 		menu.insert("g", "Download URLs", () -> {
-			SequentialDownloader downloader = new SequentialDownloader();
+
+			//SequentialDownloader downloader = new SequentialDownloader();
+			ParallelDownloader downloader = new ParallelDownloader();
 			downloader.process(ctrl.getURLs());
+			return;
 		});
 		menu.insert("q", "Quit", null);
 		Runnable choice;
