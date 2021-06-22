@@ -54,7 +54,7 @@ public class UserInterface {
 		menu.insert("g", "Download URLs serquential", () -> {
 			long startTime = System.nanoTime();
 			SequentialDownloader downloader = new SequentialDownloader();
-			downloader.process(ctrl.getURLs());
+			downloader.process(ctrl.getURLs(),ctrl.getTitles());
 			long stopTime = System.nanoTime();
 			System.out.println("Time needed: " + (stopTime - startTime)*0.000000001 + " secs");
 		});
@@ -63,8 +63,8 @@ public class UserInterface {
 			long startTime = System.nanoTime();
 			ParallelDownloader downloader = new ParallelDownloader();
 			try {
-				downloader.process(ctrl.getURLs());
-			} catch (InterruptedException e) {
+				downloader.process(ctrl.getURLs(),ctrl.getTitles());
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			long stopTime = System.nanoTime();

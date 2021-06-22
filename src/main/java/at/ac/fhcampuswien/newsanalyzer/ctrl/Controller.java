@@ -91,4 +91,12 @@ public class Controller {
 				.map(Article::getUrl)
 				.collect(Collectors.toList());
 	}
+
+	public List<String> getTitles() {
+		return articles.stream()
+				.map(Article::getTitle)
+				.collect(Collectors.toList());
+	}
+
+
 }
